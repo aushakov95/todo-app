@@ -9,7 +9,9 @@ const checkIfBodyIsEmpty = (body) => {
 
 router.get("/", async (req, res) => {
   try {
-    const todos = await req.context.models.Todo.findAll();
+    const todos = await req.context.models.Todo.findAll({
+      order: [["id", "ASC"]],
+    });
     return res.send(todos);
   } catch (e) {
     return res.status(500).send({ Error: e.message });
