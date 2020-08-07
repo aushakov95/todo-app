@@ -2,15 +2,7 @@ import { Sequelize, DataTypes } from "sequelize";
 import todo from "./todo";
 import user from "./user";
 
-let sequelize = null;
-
-if (process.env.DATABASE_URL) {
-  //The application is executed on Heroku.
-  sequelize = new Sequelize(process.env.DATABASE_URL);
-} else {
-  //The application is executed on the local machine.
-  sequelize = new Sequelize(process.env.LOCAL_DATABASE_URL);
-}
+const sequelize = new Sequelize(process.env.DATABASE_URL);
 
 const testDatabaseConnection = async () => {
   try {
