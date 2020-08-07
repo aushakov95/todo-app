@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import TodoList from "../TodoList";
 import AddTodoInput from "../AddTodoInput";
+import UserContext from "../User";
 
 const Todos = () => {
+  const user = useContext(UserContext);
   const [state, setState] = useState({});
   const getAllTodos = async () => {
-    const res = await fetch("http://localhost:9000/todos");
+    const res = await fetch(`http://localhost:9000/users/${user.uid}/todos`);
     const todos = await res.json();
     console.log(JSON.stringify(todos));
     setState({ todos });
   };
 
   const deleteTodo = async (todoId) => {
-    const res = await fetch(`http://localhost:9000/todos/${todoId}`, {
+    await fetch(`http://localhost:9000/users/${user.uid}/todos/${todoId}`, {
       method: "DELETE",
     });
     await getAllTodos();
@@ -25,13 +27,13 @@ const Todos = () => {
   if (state.todos) {
     return (
       <div>
-        <h1>Todo List</h1>
+        <h1>To-do List</h1>
+        <AddTodoInput getAllTodos={getAllTodos} />
         <TodoList
           todos={state.todos}
           deleteTodo={deleteTodo}
           getAllTodos={getAllTodos}
         />
-        <AddTodoInput getAllTodos={getAllTodos} />
       </div>
     );
   }

@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import UserContext from "../User";
+import styles from "./AddTodoInput.module.css";
 
 const AddTodoInput = (props) => {
   const [state, setState] = useState({
     task: "",
   });
+  const user = useContext(UserContext);
 
   const createTodo = async (event) => {
     event.preventDefault();
     console.log(state.task);
-    const res = await fetch("http://localhost:9000/todos", {
+    const res = await fetch(`http://localhost:9000/users/${user.uid}/todos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,8 +31,8 @@ const AddTodoInput = (props) => {
         onChange={(event) => {
           setState({ task: event.target.value });
         }}
+        className={styles.inputfield}
       />
-      <button type="submit">Add</button>
     </form>
   );
 };

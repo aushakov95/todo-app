@@ -1,0 +1,16 @@
+.todolistcontainer {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  align-content: space-between;
+  outline: red;
+  box-shadow: 0 15px 35px hsla(0, 0%, 0%, 0.2);
+  border-radius: 10px;
+  background-color: hsl(210, 36%, 96%);
+  /* max-width: 500px; */
+}
+
+.listitem {
+  display: flex;
+  flex-direction: row;
+}

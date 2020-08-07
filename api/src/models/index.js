@@ -1,7 +1,16 @@
 import { Sequelize, DataTypes } from "sequelize";
 import todo from "./todo";
+import user from "./user";
 
-const sequelize = new Sequelize(process.env.DATABASE);
+let sequelize = null;
+
+if (process.env.DATABASE_URL) {
+  //The application is executed on Heroku.
+  sequelize = new Sequelize(process.env.DATABASE_URL);
+} else {
+  //The application is executed on the local machine.
+  sequelize = new Sequelize(process.env.LOCAL_DATABASE_URL);
+}
 
 const testDatabaseConnection = async () => {
   try {
@@ -16,6 +25,7 @@ testDatabaseConnection();
 
 const models = {
   Todo: todo(sequelize, DataTypes),
+  User: user(sequelize, DataTypes),
 };
 
 Object.keys(models).forEach((key) => {

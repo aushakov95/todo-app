@@ -2,7 +2,7 @@ const todo = (sequelize, DataTypes) => {
   const Todo = sequelize.define("todo", {
     task: {
       type: DataTypes.STRING,
-      unique: true,
+      unique: false,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -17,6 +17,10 @@ const todo = (sequelize, DataTypes) => {
       },
     },
   });
+
+  Todo.associate = (models) => {
+    Todo.belongsTo(models.User);
+  };
 
   return Todo;
 };

@@ -1,6 +1,8 @@
 import { Router } from "express";
 
-const router = Router();
+// Merging req.params to access the userid parameter from the
+// users router.
+const router = Router({ mergeParams: true });
 
 const checkIfBodyIsEmpty = (body) => {
   if (Object.keys(body).length === 0) return true;
@@ -9,7 +11,14 @@ const checkIfBodyIsEmpty = (body) => {
 
 router.get("/", async (req, res) => {
   try {
+    console.log(`Received get request for userid: ${req.params.userId}`);
     const todos = await req.context.models.Todo.findAll({
+      include: [
+        {
+          model: req.context.models.User,
+          where: { id: req.params.userId },
+        },
+      ],
       order: [["id", "ASC"]],
     });
     return res.send(todos);
@@ -22,9 +31,11 @@ router.post("/", async (req, res) => {
   try {
     const isBodyEmpty = checkIfBodyIsEmpty(req.body);
     if (isBodyEmpty) return res.status(400).send({ Error: "Empty body" });
+    console.log(`userid: ${req.params.userId}`);
     const newTodo = await req.context.models.Todo.create({
       task: req.body.task,
       isCompleted: false,
+      userId: req.params.userId,
     });
     return res.status(201).send(newTodo);
   } catch (e) {

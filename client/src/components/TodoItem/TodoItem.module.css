@@ -1,0 +1,53 @@
+.todoitem {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: baseline;
+  font-size: 20px;
+  height: 80px;
+}
+
+.task {
+  width: 80%;
+  color: hsl(209, 61%, 16%);
+  word-wrap: break-word;
+}
+
+.editTaskField {
+  width: 80%;
+  background-color: hsl(210, 36%, 96%);
+  font-size: 20px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.checkbox {
+  width: 10%;
+  border-radius: 10px !important;
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  transform: scale(2);
+}
+
+.checkbox:hover {
+  cursor: pointer;
+}
+
+.deleteContainer {
+  width: 10%;
+  text-align: center;
+}
+
+.delete {
+  font-weight: 700;
+  background-color: none;
+  color: hsl(360, 79%, 32%);
+}
+
+.delete:hover {
+  cursor: pointer;
+  color: hsl(360, 67%, 44%);
+}

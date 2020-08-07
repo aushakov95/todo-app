@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import UserContext from "../User";
+import styles from "./TodoItem.module.css";
 
 const TodoItem = (props) => {
   const [state, setState] = useState({
@@ -7,40 +9,57 @@ const TodoItem = (props) => {
     task: props.task,
   });
 
-  const handleCheckboxClick = () => {
-    setState({ ...state, isCompleted: !state.isCompleted });
+  const user = useContext(UserContext);
+
+  const updateTodo = async (newTodo) => {
+    const res = await fetch(
+      `http://localhost:9000/users/${user.uid}/todos/${props.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTodo),
+      }
+    );
+    await props.getAllTodos();
+  };
+
+  const handleCheckboxClick = async () => {
+    const newValue = !state.isCompleted;
+    setState({ ...state, isCompleted: newValue });
+    /* 
+        Cannot rely on setState to finish before calling updateTodo
+        therefore we are using the flipped version of current value of the
+        checkbox when calling updateTodo. 
+    */
+    await updateTodo({ task: state.task, isCompleted: newValue });
   };
 
   const handleDoubleClick = (event) => {
     setState({ ...state, isBeingEdited: true });
-    event.currentTarget.focus();
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setState({ ...state, isBeingEdited: false });
-    const res = await fetch(`http://localhost:9000/todos/${props.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        task: state.task,
-        isCompleted: state.isCompleted,
-      }),
-    });
-    await props.getAllTodos();
+    if (state.task.length <= 0) {
+      props.deleteTodo(props.id);
+    } else {
+      await updateTodo({ task: state.task, isCompleted: state.isCompleted });
+    }
   };
 
   if (state.isBeingEdited) {
     return (
-      <div>
+      <div className={styles.todoitem}>
         <input
           type="checkbox"
           id={props.id}
           name={props.task}
           checked={state.isCompleted}
           onClick={handleCheckboxClick}
+          className={styles.checkbox}
         />
         <input
           autoFocus
@@ -50,22 +69,29 @@ const TodoItem = (props) => {
             setState({ ...state, task: event.target.value });
           }}
           onBlur={handleSubmit}
+          className={styles.editTaskField}
         />
       </div>
     );
   }
   return (
-    <div>
+    <div className={styles.todoitem}>
       <input
         type="checkbox"
         id={props.id}
         name={props.task}
         checked={state.isCompleted}
         onClick={handleCheckboxClick}
+        className={styles.checkbox}
       />
-      <p for={props.id} onDoubleClick={handleDoubleClick}>
+      <p className={styles.task} onDoubleClick={handleDoubleClick}>
         {state.task}
       </p>
+      <div className={styles.deleteContainer}>
+        <p className={styles.delete} onClick={() => props.deleteTodo(props.id)}>
+          ×
+        </p>
+      </div>
     </div>
   );
 };
