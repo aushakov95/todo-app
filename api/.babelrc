@@ -10,9 +10,3 @@
     ]
   ]
 }
-
-// {
-//   "presets": [
-//     "@babel/preset-env"
-//   ]
-// }
