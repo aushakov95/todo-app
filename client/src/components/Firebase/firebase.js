@@ -1,9 +1,7 @@
 import firebase from "firebase";
 
 const config = {
-  apiKey:
-    process.env.REACT_APP_FIREBASE_API_KEY ||
-    process.env.PRODUCTION_FIREBASE_API_KEY,
+  apiKey: "AIzaSyCeUtAfYtJu31WGQmAFXHwgZvVOc4v_19w", //public API key
   authDomain:
     process.env.REACT_APP_FIREBASE_AUTH_DOMAIN ||
     "todos-app-145c3.firebaseapp.com",
