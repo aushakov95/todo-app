@@ -13,7 +13,7 @@ const TodoItem = (props) => {
 
   const updateTodo = async (newTodo) => {
     const res = await fetch(
-      `http://localhost:9000/users/${user.uid}/todos/${props.id}`,
+      `https://todo-app-by-andrei-api.herokuapp.com/users/${user.uid}/todos/${props.id}`,
       {
         method: "PUT",
         headers: {

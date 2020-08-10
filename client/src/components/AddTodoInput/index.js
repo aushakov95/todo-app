@@ -11,13 +11,16 @@ const AddTodoInput = (props) => {
   const createTodo = async (event) => {
     event.preventDefault();
     console.log(state.task);
-    const res = await fetch(`http://localhost:9000/users/${user.uid}/todos`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ task: state.task }),
-    });
+    const res = await fetch(
+      `https://todo-app-by-andrei-api.herokuapp.com/users/${user.uid}/todos`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ task: state.task }),
+      }
+    );
     setState({ task: "" });
     await props.getAllTodos();
   };

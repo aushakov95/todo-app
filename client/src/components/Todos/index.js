@@ -7,16 +7,21 @@ const Todos = () => {
   const user = useContext(UserContext);
   const [state, setState] = useState({});
   const getAllTodos = async () => {
-    const res = await fetch(`http://localhost:9000/users/${user.uid}/todos`);
+    const res = await fetch(
+      `https://todo-app-by-andrei-api.herokuapp.com/users/${user.uid}/todos`
+    );
     const todos = await res.json();
     console.log(JSON.stringify(todos));
     setState({ todos });
   };
 
   const deleteTodo = async (todoId) => {
-    await fetch(`http://localhost:9000/users/${user.uid}/todos/${todoId}`, {
-      method: "DELETE",
-    });
+    await fetch(
+      `https://todo-app-by-andrei-api.herokuapp.com/users/${user.uid}/todos/${todoId}`,
+      {
+        method: "DELETE",
+      }
+    );
     await getAllTodos();
   };
 
