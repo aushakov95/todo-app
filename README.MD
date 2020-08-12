@@ -1,4 +1,4 @@
-# Yet Another To-dos App :)
+# Yet Another To-dos App ✅
 
 This is yet another (probably a billionth) variation of a to-dos app.
 Built with Express.js, React and PostgreSQL.
